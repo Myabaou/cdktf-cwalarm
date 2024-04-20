@@ -1,0 +1,15 @@
+{
+  "language": "typescript",
+  "app": "npx ts-node main.ts",
+  "projectId": "b55922f4-e2b3-4d62-a3fc-309803e819c8",
+  "sendCrashReports": "false",
+  "terraformProviders": [],
+  "terraformModules": [
+    {
+      "name": "metric_alarm",
+      "source": "terraform-aws-modules/cloudwatch/aws//modules/metric-alarm",
+      "version": "5.3.1"
+    }
+  ],
+  "context": {}
+}
