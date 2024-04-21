@@ -95,7 +95,7 @@ class MyStack extends TerraformStack {
       threshold: number,
       metricName: string,
       comparisonOperator: string,
-      deimensions: any,
+      dimensions: any,
       actionsEnabled: boolean,
       evaluationPeriods: number,
       period: string, // 5分間隔
@@ -113,7 +113,7 @@ class MyStack extends TerraformStack {
         period: period,
         statistic: statistic,
         threshold: threshold,
-        dimensions: deimensions,
+        dimensions: dimensions,
         actionsEnabled: actionsEnabled,  // 通知を有効にする
         alarmDescription: `This metric monitors ${statistic} ${metricName}`,
         treatMissingData: treatMissingData,
