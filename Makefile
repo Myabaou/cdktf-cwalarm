@@ -12,6 +12,7 @@ install:
 	npm install @cdktf/provider-aws
 	npm install --save-dev @types/node
 	npm install --save-dev @types/papaparse
+	npm install papaparse
 
 # AWS SSO 認証していない場合再認証
 ensure-aws-auth:
