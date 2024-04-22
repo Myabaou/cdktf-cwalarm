@@ -86,7 +86,7 @@ This command will destroy all resources created by Terraform.
 make destroy
 ```
 
-## HCL への変換
+## Conversion to HCL
 
 If the version of CDK for Terraform is 20 or above, it is possible to output in HCL format.
 
