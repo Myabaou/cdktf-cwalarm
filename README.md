@@ -88,7 +88,7 @@ make destroy
 
 ## Conversion to HCL
 
-If the version of CDK for Terraform is 20 or above, it is possible to output in HCL format.
+If the version of CDK for Terraform is 0.20 or above, it is possible to output in HCL format.
 
 ```sh
 make "synth --hcl"
