@@ -1,14 +1,12 @@
 # cdktf-cwalarm
 
-CDK For Terraform By Cloudwatch Alarm
+This is a Cloudwatch Alarm module using CDK for Terraform.
 
-## 前提条件
+## Prerequisites
 
-- ChatbotとSlackが連動済みであること
-<https://aws.amazon.com/jp/builders-flash/202006/slack-chatbot/?awsf.filter-name=*all>
-- Terraform Stateを保存するS3 Bucketが作成済みであること
-- aws-vaultがインストールされていること
-  Makefile内の`_AWSPROFILE=aws-sample` を自身のプロファイルに変更すること
+- Chatbot and Slack are already integrated. For more details, refer to this [guide](https://aws.amazon.com/jp/builders-flash/202006/slack-chatbot/?awsf.filter-name=*all).
+- An S3 Bucket for storing Terraform State is already created. This bucket is used to store the state of your infrastructure so that Terraform can plan and make changes accordingly.
+- aws-vault is installed. This is a tool to securely store and access AWS credentials in a development environment. You need to change `_AWSPROFILE=aws-sample` in the Makefile to your own profile.
 
 ## SetUp
 
@@ -26,9 +24,8 @@ make get
 
 ## Cloudwatch Alarm Configure
 
-- Create Slack Config File
-buckerの値は予め作成してあるS3 Bucketを指定する。
-SlackのChannel IDとWorkspace IDを設定する
+- Create a Slack Config File. 
+Specify the value of the bucket as the pre-created S3 Bucket. Set the Channel ID and Workspace ID of Slack.
 
 ```cw_configs.ts
 export const TerraformConfigs = {
@@ -48,23 +45,23 @@ export const CloudwatchConfigs = {
 
 ```
 
-## 反映
+## Apply Changes
 
-- DryRun
+- DryRun: This command will show you what changes Terraform will apply without actually applying the
 
 ```sh
 make diff
 ```
 
-- Apply
+- Apply: This command applies the changes.
 
 ```sh
 make deploy
 ```
 
-## Terraform での実行
+## Execution with Terraform
 
-引数にTF=trueを指定することで、terraformコマンドを実行することができる。
+By specifying TF=true as an argument, you can execute the terraform command.
 
 ```sh
 make _TF=true "state list"
@@ -83,16 +80,18 @@ module.ec2_Maximum_alarm_CPUUtilization.aws_cloudwatch_metric_alarm.this[0]
 
 ## Destroy
 
+This command will destroy all resources created by Terraform.
+
 ```sh
 make destroy
 ```
 
 ## HCL への変換
 
-CDK for TerraformのVerisonが20以上であればHCL形式で出力することが可能です。
+If the version of CDK for Terraform is 20 or above, it is possible to output in HCL format.
 
 ```sh
 make "synth --hcl"
 ```
 
-`cdktf.out/stacks/cloudwatch_alarm/cdk.tf` にHCL形式のファイルが出力されます。
+The HCL format file will be output to `cdktf.out/stacks/cloudwatch_alarm/cdk.tf`.
