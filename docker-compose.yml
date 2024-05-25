@@ -1,0 +1,8 @@
+services:
+  cdktf:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ~/.aws:/root/.aws
+    working_dir: /app

@@ -14,6 +14,9 @@ install:
 	npm install --save-dev @types/papaparse
 	npm install papaparse
 
+build:
+	docker compose build
+
 # AWS SSO 認証していない場合再認証
 ensure-aws-auth:
 	@{ \

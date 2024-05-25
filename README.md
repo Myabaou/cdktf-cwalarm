@@ -24,7 +24,7 @@ make get
 
 ## Cloudwatch Alarm Configure
 
-- Create a Slack Config File. 
+- Create a Slack Config File.
 Specify the value of the bucket as the pre-created S3 Bucket. Set the Channel ID and Workspace ID of Slack.
 
 ```cw_configs.ts
@@ -95,3 +95,32 @@ make "synth --hcl"
 ```
 
 The HCL format file will be output to `cdktf.out/stacks/cloudwatch_alarm/cdk.tf`.
+
+## Docker
+
+- Build
+
+```sh
+make build
+```
+
+- Docker上で任意のコマンド実行
+
+```sh
+docker compose run cdktf ls
+```
+
+- cdktfの実行
+
+```sh
+docker compose run cdktf make diff
+```
+
+```log
+Opening the SSO authorization page in your default browser (use Ctrl-C to abort)
+https://device.sso.ap-northeast-1.amazonaws.com/?user_code=SXXX-XXXX
+Enter passphrase to unlock "/root/.awsvault/keys/":
+```
+
+と聞かれるため出力されたURLをブラウザで開き、allowする。
+パスワードはaws-vaultのパスワードを入力する。
