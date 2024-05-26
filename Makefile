@@ -14,6 +14,14 @@ install:
 	npm install --save-dev @types/papaparse
 	npm install papaparse
 
+build:
+	docker compose build
+
+up:
+	docker compose up -d --build
+
+
+
 # AWS SSO 認証していない場合再認証
 ensure-aws-auth:
 	@{ \
@@ -36,6 +44,10 @@ define CDKTF_CMD
 	aws-vault exec $(_AWSPROFILE) -- cdktf $@
 endef
 
+# Docker Exec
+define DOCKER_EXEC
+	docker compose run -e AWS_PROFILE=$(_AWSPROFILE) cdk-tf cdktf $@
+endef
 
 
 %:
@@ -43,6 +55,9 @@ endef
 	@if [ "$(_TF)" = "true" ]; then \
 		echo "[CMD]: $(TERRAFORM_CMD)"; \
 		$(TERRAFORM_CMD); \
+	elif [ "$(_DK)" = "true" ]; then \
+		echo "[CMD]: $(DOCKER_EXEC)"; \
+		$(DOCKER_EXEC); \
 	else \
 		echo "[CMD]: $(CDKTF_CMD)"; \
 		$(CDKTF_CMD); \

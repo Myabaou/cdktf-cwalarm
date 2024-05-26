@@ -24,7 +24,7 @@ make get
 
 ## Cloudwatch Alarm Configure
 
-- Create a Slack Config File. 
+- Create a Slack Config File.
 Specify the value of the bucket as the pre-created S3 Bucket. Set the Channel ID and Workspace ID of Slack.
 
 ```cw_configs.ts
@@ -95,3 +95,48 @@ make "synth --hcl"
 ```
 
 The HCL format file will be output to `cdktf.out/stacks/cloudwatch_alarm/cdk.tf`.
+
+## Docker Execution
+
+- Build
+
+```sh
+make build
+```
+
+- Docker cdk for Terraform Execution
+
+```sh
+make _DK=true diff
+```
+
+
+- Docker Execution
+
+```sh
+docker compose run cdk-tf ls
+```
+
+```sh
+docker compose run -e AWS_PROFILE=aws-sample cdk-tf cdktf diff
+```
+
+- Execution of cdktf (deprecated)
+
+```sh
+docker compose run cdk-tf make diff
+```
+
+```log
+Opening the SSO authorization page in your default browser (use Ctrl-C to abort)
+https://device.sso.ap-northeast-1.amazonaws.com/?user_code=SXXX-XXXX
+Enter passphrase to unlock "/root/.awsvault/keys/":
+```
+
+When asked, open the output URL in your browser and allow it. For the password, enter the aws-vault password.
+
+- Execution of Terraform
+
+```sh
+docker compose run -e AWS_PROFILE=aws-sample cdk-tf /bin/sh -c "terraform -chdir='cdktf.out/stacks/cloudwatch_alarm' init && terraform -chdir='cdktf.out/stacks/cloudwatch_alarm' plan"
+```
