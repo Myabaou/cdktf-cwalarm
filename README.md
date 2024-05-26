@@ -96,7 +96,7 @@ make "synth --hcl"
 
 The HCL format file will be output to `cdktf.out/stacks/cloudwatch_alarm/cdk.tf`.
 
-## Docker
+## Docker Execution
 
 - Build
 
@@ -104,16 +104,27 @@ The HCL format file will be output to `cdktf.out/stacks/cloudwatch_alarm/cdk.tf`
 make build
 ```
 
-- Docker上で任意のコマンド実行
+- Docker cdk for Terraform Execution
 
 ```sh
-docker compose run cdktf ls
+make _DK=true diff
 ```
 
-- cdktfの実行
+
+- Docker Execution
 
 ```sh
-docker compose run cdktf make diff
+docker compose run cdk-tf ls
+```
+
+```sh
+docker compose run -e AWS_PROFILE=aws-sample cdk-tf cdktf diff
+```
+
+- Execution of cdktf (deprecated)
+
+```sh
+docker compose run cdk-tf make diff
 ```
 
 ```log
@@ -122,5 +133,10 @@ https://device.sso.ap-northeast-1.amazonaws.com/?user_code=SXXX-XXXX
 Enter passphrase to unlock "/root/.awsvault/keys/":
 ```
 
-と聞かれるため出力されたURLをブラウザで開き、allowする。
-パスワードはaws-vaultのパスワードを入力する。
+When asked, open the output URL in your browser and allow it. For the password, enter the aws-vault password.
+
+- Execution of Terraform
+
+```sh
+docker compose run -e AWS_PROFILE=aws-sample cdk-tf /bin/sh -c "terraform -chdir='cdktf.out/stacks/cloudwatch_alarm' init && terraform -chdir='cdktf.out/stacks/cloudwatch_alarm' plan"
+```

@@ -29,16 +29,14 @@ RUN wget https://github.com/99designs/aws-vault/releases/download/v7.2.0/aws-vau
 
 
 # Terraformインストール (執筆時点での最新版を導入してます。バージョン一覧 => https://releases.hashicorp.com/terraform/)
-RUN wget https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_arm64.zip && \
-    unzip ./terraform_1.5.7_linux_arm64.zip -d /usr/local/bin/ && \
-    rm ./terraform_1.5.7_linux_arm64.zip
+ENV TERRAFORM_VERSION=1.8.4
+RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_arm64.zip && \
+    unzip ./terraform_${TERRAFORM_VERSION}_linux_arm64.zip -d /usr/local/bin/ && \
+    rm ./terraform_${TERRAFORM_VERSION}_linux_arm64.zip
 
 # aws-vaultのバックエンドをファイルに設定
 ENV AWS_VAULT_BACKEND=file
 
-
-# Make port 8080 available to the world outside this container
-EXPOSE 8080
 
 # Run the application when the container launches
 CMD ["cdktf", "--version"]
