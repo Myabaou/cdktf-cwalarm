@@ -38,5 +38,6 @@ RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform
 ENV AWS_VAULT_BACKEND=file
 
 
+
 # Run the application when the container launches
 CMD ["cdktf", "--version"]
