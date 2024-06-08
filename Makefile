@@ -4,7 +4,12 @@
 
 _AWSPROFILE=aws-sample
 _TF ?= false
+_EXEC ?= docker
 
+
+ifeq (,$(filter $(_EXEC),docker finch local))
+$(error Invalid EXEC variable. It should be either 'docker' or 'finch' or 'local')
+endif
 
 .PHONY: ensure-aws-auth costview install
 
@@ -15,10 +20,10 @@ install:
 	npm install papaparse
 
 build:
-	docker compose build
+	${_EXEC} compose build
 
 up:
-	docker compose up -d --build
+	${_EXEC} compose up -d --build
 
 
 
@@ -46,18 +51,19 @@ endef
 
 # Docker Exec
 define DOCKER_EXEC
-	docker compose run -e AWS_PROFILE=$(_AWSPROFILE) cdk-tf cdktf $@
+	${_EXEC} compose run -e AWS_PROFILE=$(_AWSPROFILE) cdk-tf cdktf $@
 endef
 
 
 %:
-	@make ensure-aws-auth 
+	@make ensure-aws-auth
+
 	@if [ "$(_TF)" = "true" ]; then \
 		echo "[CMD]: $(TERRAFORM_CMD)"; \
 		$(TERRAFORM_CMD); \
-	elif [ "$(_DK)" = "true" ]; then \
-		echo "[CMD]: $(DOCKER_EXEC)"; \
-		$(DOCKER_EXEC); \
+	elif [ "$(_EXEC)" = "docker" ] || [ "$(_EXEC)" = "finch" ]; then \
+        echo "[CMD]: $(DOCKER_EXEC)"; \
+        $(DOCKER_EXEC); \
 	else \
 		echo "[CMD]: $(CDKTF_CMD)"; \
 		$(CDKTF_CMD); \
