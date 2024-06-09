@@ -107,9 +107,8 @@ make build
 - Docker cdk for Terraform Execution
 
 ```sh
-make _DK=true diff
+make _EXEC=docker diff
 ```
-
 
 - Docker Execution
 
@@ -139,4 +138,20 @@ When asked, open the output URL in your browser and allow it. For the password, 
 
 ```sh
 docker compose run -e AWS_PROFILE=aws-sample cdk-tf /bin/sh -c "terraform -chdir='cdktf.out/stacks/cloudwatch_alarm' init && terraform -chdir='cdktf.out/stacks/cloudwatch_alarm' plan"
+```
+
+## Finch Execution
+
+```sh
+make _EXEC=finch build
+```
+
+```sh
+make _EXEC=finch diff
+```
+
+- Version Check
+
+```sh
+make _EXEC=finch "\-\-version"
 ```

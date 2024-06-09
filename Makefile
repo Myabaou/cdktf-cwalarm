@@ -5,7 +5,7 @@
 _AWSPROFILE=aws-sample
 _TF ?= false
 _EXEC ?= docker
-
+CURRENT_DIR = $(shell pwd)
 
 ifeq (,$(filter $(_EXEC),docker finch local))
 $(error Invalid EXEC variable. It should be either 'docker' or 'finch' or 'local')
@@ -51,7 +51,7 @@ endef
 
 # Docker Exec
 define DOCKER_EXEC
-	${_EXEC} compose run -e AWS_PROFILE=$(_AWSPROFILE) cdk-tf cdktf $@
+	${_EXEC} run --rm -v $(CURRENT_DIR):/app -v ~/.aws:/root/.aws -e AWS_PROFILE=$(_AWSPROFILE) -w /app cdktf-docker:latest cdktf $@
 endef
 
 
