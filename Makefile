@@ -51,7 +51,7 @@ endef
 
 # Docker Exec
 define DOCKER_EXEC
-	${_EXEC} run --rm -v $(CURRENT_DIR):/app -v ~/.aws:/root/.aws -e AWS_PROFILE=$(_AWSPROFILE) -w /app cdktf-docker:latest cdktf $@
+	${_EXEC} run -it --rm -v $(CURRENT_DIR):/app -v ~/.aws:/root/.aws -e AWS_PROFILE=$(_AWSPROFILE) -w /app cdktf-docker:latest cdktf $@
 endef
 
 
