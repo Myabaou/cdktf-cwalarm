@@ -31,8 +31,10 @@ up:
 ensure-aws-auth:
 	@{ \
 	set +e ;\
-	IDENTITY=$$(aws sts get-caller-identity --profile $(_AWSPROFILE) 2>&1) ;\
-	if echo $$IDENTITY | grep -q 'The SSO session associated with this profile has expired or is otherwise invalid' ; then \
+	aws sts get-caller-identity --profile $(_AWSPROFILE) ;\
+	STATUS_CODE=$$? ;\
+	if [ $$STATUS_CODE -eq 255 ]; then \
+		echo "AWS SSO session has expired or is invalid. Attempting to re-authenticate..." ;\
 		aws sso login --profile $(_AWSPROFILE) ;\
 	else \
 		echo "[INFO]: AWS SSO $(_AWSPROFILE) Authentication successful!" ;\
@@ -55,9 +57,9 @@ define DOCKER_EXEC
 endef
 
 
+
 %:
 	@make ensure-aws-auth
-
 	@if [ "$(_TF)" = "true" ]; then \
 		echo "[CMD]: $(TERRAFORM_CMD)"; \
 		$(TERRAFORM_CMD); \
