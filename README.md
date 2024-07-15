@@ -47,6 +47,16 @@ export const CloudwatchConfigs = {
 
 ## Apply Changes
 
+- Build　Docker Image
+
+```sh
+make build
+```
+
+> [!TIP]
+> Execution is assumed to be via Docker. 
+> If you want to run it locally, please refer to the Local Execution section mentioned later.
+
 - DryRun: This command will show you what changes Terraform will apply without actually applying the
 
 ```sh
@@ -96,34 +106,13 @@ make "synth --hcl"
 
 The HCL format file will be output to `cdktf.out/stacks/cloudwatch_alarm/cdk.tf`.
 
-## Docker Execution
+## Local Execution
 
-- Build
 
-```sh
-make build
-```
-
-- Docker cdk for Terraform Execution
+- Local cdk for Terraform Execution
 
 ```sh
-make _EXEC=docker diff
-```
-
-- Docker Execution
-
-```sh
-docker compose run cdk-tf ls
-```
-
-```sh
-docker compose run -e AWS_PROFILE=aws-sample cdk-tf cdktf diff
-```
-
-- Execution of cdktf (deprecated)
-
-```sh
-docker compose run cdk-tf make diff
+make _EXEC=local diff
 ```
 
 ```log
