@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a parent image
-FROM node:22
+FROM node:20
 
 # Set the working directory in the container to /app
 WORKDIR /app
@@ -14,7 +14,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv
 	rm -rf awscliv2.zip
 
 # Terraformインストール (執筆時点での最新版を導入してます。バージョン一覧 => https://releases.hashicorp.com/terraform/)
-ENV TERRAFORM_VERSION=1.9.1
+ENV TERRAFORM_VERSION=1.9.2
 RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_arm64.zip && \
     unzip ./terraform_${TERRAFORM_VERSION}_linux_arm64.zip -d /usr/local/bin/ && \
     rm ./terraform_${TERRAFORM_VERSION}_linux_arm64.zip
