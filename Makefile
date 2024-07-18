@@ -20,7 +20,7 @@ install:
 	npm install papaparse
 
 build:
-	${_EXEC} compose build
+	${_EXEC} compose build --no-cache
 
 up:
 	${_EXEC} compose up -d --build
