@@ -61,7 +61,6 @@ jobs:
 
       - name: Generate module and provider bindings
         run: | 
-         cd cdk_for_terraform/${{ env.DIR_NAME }}
          npm install cdktf-cli@${{ env.CDKTF_VERSION }}
          npx cdktf-cli@${{ env.CDKTF_VERSION }} get
          npm install @cdktf/provider-aws
@@ -78,7 +77,6 @@ jobs:
           stackName: ${{ env.MY_STACK }}
           mode: plan-only
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          workingDirectory: cdk_for_terraform/${{ env.DIR_NAME }}
         env:
           ENV_ID: ${{ env.MY_ENV }}
 
@@ -93,7 +91,6 @@ jobs:
           stackName: ${{ env.MY_STACK }}
           mode: auto-approve-apply
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          workingDirectory: cdk_for_terraform/${{ env.DIR_NAME }}
         env:
           ENV_ID: ${{ env.MY_ENV }}
 
