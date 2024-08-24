@@ -2,7 +2,7 @@ name: "CDK for Terraform Cloudwatch Alarm"
 on:
    pull_request:
     branches:
-     - develop
+     - main
 
     types: [opened, synchronize, reopened, closed]
     paths:
