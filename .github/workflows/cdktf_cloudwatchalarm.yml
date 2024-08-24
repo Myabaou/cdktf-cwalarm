@@ -21,4 +21,3 @@ jobs:
       MY_STACK: cloudwatch_alarm
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
