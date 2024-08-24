@@ -1,0 +1,24 @@
+name: "CDK for Terraform Cloudwatch Alarm"
+on:
+   pull_request:
+    branches:
+     - develop
+
+    types: [opened, synchronize, reopened, closed]
+    paths:
+      - "*.ts"
+      - "cloudwatch_configs.csv"
+      - "./.github/workflows/cdktf_cloudwatchalarm.yml"
+
+   workflow_dispatch:
+#-------------------------#
+jobs:
+  deploy-tf:
+    uses: ./.github/workflows/cdktf_standard_shared.yml
+    with:
+      MY_ENV: cloudwatch_alarm
+      MY_DIR: cloudwatch_alarm
+      MY_STACK: cloudwatch_alarm
+    secrets:
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
