@@ -11,6 +11,11 @@ on:
       - "./.github/workflows/cdktf_cloudwatchalarm.yml"
 
    workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  id-token: write
+
 #-------------------------#
 jobs:
   deploy-tf:
