@@ -2,11 +2,18 @@
 
 This is a Cloudwatch Alarm module using CDK for Terraform.
 
+## Configuration diagram
+
+![](cwalarm.drawio.svg)
+
+
 ## Prerequisites
 
 - Chatbot and Slack are already integrated. For more details, refer to this [guide](https://aws.amazon.com/jp/builders-flash/202006/slack-chatbot/?awsf.filter-name=*all).
 - An S3 Bucket for storing Terraform State is already created. This bucket is used to store the state of your infrastructure so that Terraform can plan and make changes accordingly.
 - aws-vault is installed. This is a tool to securely store and access AWS credentials in a development environment. You need to change `_AWSPROFILE=aws-sample` in the Makefile to your own profile.
+
+
 
 ## SetUp
 

@@ -1,0 +1,99 @@
+name: "CDK for Terraform Standard Shared"
+on:
+  workflow_call:
+    inputs:
+      MY_ENV:
+        description: "環境名"
+        required: true
+        default: "default"
+        type: string
+      MY_DIR:
+        description: "ディレクトリ名"
+        required: true
+        default: "developers"
+        type: string
+      MY_STACK:
+        description: "スタック名"
+        required: true
+        default: "default"
+        type: string
+    secrets:
+      AWS_ROLE_ARN:
+        description: 'AWS IAM ROLE ARN'
+        required: true
+#-------------------------#
+# 環境変数
+#-------------------------#
+env:
+    CDKTF_VERSION: 0.20.8
+    TERRAFORM_VERSION: 1.9.1
+    
+permissions:
+    id-token: write
+    contents: read
+    pull-requests: write
+  
+
+jobs:
+  terraform:
+    name: "CDKTF Standard ${{ inputs.MY_ENV }}"
+    runs-on: ubuntu-latest
+    env: 
+      MY_ENV: ${{ inputs.MY_ENV }}
+      DIR_NAME: ${{ inputs.MY_DIR }}
+      MY_STACK: ${{ inputs.MY_STACK }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials from account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ap-northeast-1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Generate module and provider bindings
+        run: | 
+         cd cdk_for_terraform/${{ env.DIR_NAME }}
+         npm install cdktf-cli@${{ env.CDKTF_VERSION }}
+         npx cdktf-cli@${{ env.CDKTF_VERSION }} get
+         npm install @cdktf/provider-aws
+         npm install --save-dev @types/node
+
+
+
+
+      - name: Run Terraform CDK DryRun
+        uses: hashicorp/terraform-cdk-action@v5
+        with:
+          terraformVersion: ${{ env.TERRAFORM_VERSION }}
+          cdktfVersion: ${{ env.CDKTF_VERSION }}
+          stackName: ${{ env.MY_STACK }}
+          mode: plan-only
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          workingDirectory: cdk_for_terraform/${{ env.DIR_NAME }}
+        env:
+          ENV_ID: ${{ env.MY_ENV }}
+
+
+      # developにマージされた時に実行される。
+      - name: Run Terraform CDK Apply
+        if: github.event.pull_request.merged == true
+        uses: hashicorp/terraform-cdk-action@v5
+        with:
+          terraformVersion: ${{ env.TERRAFORM_VERSION }}
+          cdktfVersion: ${{ env.CDKTF_VERSION }}
+          stackName: ${{ env.MY_STACK }}
+          mode: auto-approve-apply
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          workingDirectory: cdk_for_terraform/${{ env.DIR_NAME }}
+        env:
+          ENV_ID: ${{ env.MY_ENV }}
+
