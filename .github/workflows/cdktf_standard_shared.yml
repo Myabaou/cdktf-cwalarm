@@ -66,7 +66,6 @@ jobs:
          npx cdktf-cli@${{ env.CDKTF_VERSION }} get
          npm install @cdktf/provider-aws
          npm install --save-dev @types/node
-#         echo -n $CW_CONFIG | base64 --decode > cw_configs.ts.ts
          echo $CW_CONFIG > cw_configs.ts
          cat cw_configs.ts
 
