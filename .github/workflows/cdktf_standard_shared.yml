@@ -27,7 +27,8 @@ on:
 env:
     CDKTF_VERSION: 0.20.8
     TERRAFORM_VERSION: 1.9.1
-    
+    CW_CONFIG: ${{ vars.CW_CONFIG}}
+
 permissions:
     id-token: write
     contents: read
@@ -61,11 +62,12 @@ jobs:
 
       - name: Generate module and provider bindings
         run: | 
-         cd cdk_for_terraform/${{ env.DIR_NAME }}
          npm install cdktf-cli@${{ env.CDKTF_VERSION }}
          npx cdktf-cli@${{ env.CDKTF_VERSION }} get
          npm install @cdktf/provider-aws
          npm install --save-dev @types/node
+         echo $CW_CONFIG > cw_configs.ts
+         cat cw_configs.ts
 
 
 
@@ -78,7 +80,6 @@ jobs:
           stackName: ${{ env.MY_STACK }}
           mode: plan-only
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          workingDirectory: cdk_for_terraform/${{ env.DIR_NAME }}
         env:
           ENV_ID: ${{ env.MY_ENV }}
 
@@ -93,7 +94,6 @@ jobs:
           stackName: ${{ env.MY_STACK }}
           mode: auto-approve-apply
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          workingDirectory: cdk_for_terraform/${{ env.DIR_NAME }}
         env:
           ENV_ID: ${{ env.MY_ENV }}
 

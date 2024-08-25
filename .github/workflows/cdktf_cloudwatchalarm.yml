@@ -11,6 +11,12 @@ on:
       - "./.github/workflows/cdktf_cloudwatchalarm.yml"
 
    workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  id-token: write
+  contents: read
+
 #-------------------------#
 jobs:
   deploy-tf:
@@ -21,4 +27,3 @@ jobs:
       MY_STACK: cloudwatch_alarm
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
