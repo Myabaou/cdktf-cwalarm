@@ -8,8 +8,8 @@ on:
     paths:
       - "*.ts"
       - "cloudwatch_configs.csv"
-      - "./.github/workflows/cdktf_cloudwatchalarm.yml"
-      - "./.github/workflows/cdktf_standard_shared.yml"
+      - ".github/workflows/cdktf_cloudwatchalarm.yml"
+      - ".github/workflows/cdktf_standard_shared.yml"
 
    workflow_dispatch:
 
