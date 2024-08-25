@@ -20,7 +20,6 @@ class MyStack extends TerraformStack {
     // define resources here
     // Define AWS provider
     const backend = TerraformConfigs.backend;
-    console.log(backend);
     new AwsProvider(this, 'aws', {
       region: backend.region, // Example: 'us-west-2'
       defaultTags: [{

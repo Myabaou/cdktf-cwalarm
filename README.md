@@ -52,6 +52,20 @@ export const CloudwatchConfigs = {
 
 ```
 
+
+## GitHub Actions SetUp
+
+> [!TIP]
+> If you are not using GitHub Actions, you can delete the `.github/workflows` directory as the following steps are not required.
+
+- Set the ARN of the IAM role for GitHub Actions as `AWS_ROLE_ARN` in the GitHub Actions Secrets.
+The method for setting up the IAM role is omitted.
+
+- Set the content of `cw_configs.ts` as the value of the repository variable `CW_CONFIG`.
+
+
+
+
 ## Apply Changes
 
 - Build　Docker Image
