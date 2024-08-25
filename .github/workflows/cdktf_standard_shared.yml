@@ -27,7 +27,8 @@ on:
 env:
     CDKTF_VERSION: 0.20.8
     TERRAFORM_VERSION: 1.9.1
-    
+    CW_CONFIG: ${{ vars.CW_CONFIG}}
+
 permissions:
     id-token: write
     contents: read
@@ -65,6 +66,8 @@ jobs:
          npx cdktf-cli@${{ env.CDKTF_VERSION }} get
          npm install @cdktf/provider-aws
          npm install --save-dev @types/node
+         echo -n $CW_CONFIG | base64 --decode > cw_configs.ts.ts
+         cat cw_configs.ts
 
 
 
