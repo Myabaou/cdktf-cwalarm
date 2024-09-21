@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { App, TerraformStack } from "cdktf";
+import { App, TerraformStack, Token } from "cdktf";
 import { S3Backend } from 'cdktf';
 import { AwsProvider } from "@cdktf/provider-aws/lib/provider";
 
@@ -45,6 +45,67 @@ class MyStack extends TerraformStack {
       name: 'AlertToSlack',
     });
 
+
+    // Get AWS Account ID
+    const accountId = new aws.dataAwsCallerIdentity.DataAwsCallerIdentity(this, 'current', {}).accountId;
+
+    // SNS Access Policy
+    const snsTopicPolicy = new aws.dataAwsIamPolicyDocument.DataAwsIamPolicyDocument(
+      this,
+      "sns_topic_policy",
+      {
+        policyId: "__default_policy_ID",
+        statement: [
+          {
+            actions: [
+              "SNS:Subscribe",
+              "SNS:SetTopicAttributes",
+              "SNS:RemovePermission",
+              "SNS:Receive",
+              "SNS:Publish",
+              "SNS:ListSubscriptionsByTopic",
+              "SNS:GetTopicAttributes",
+              "SNS:DeleteTopic",
+              "SNS:AddPermission"
+            ],
+            condition: [
+              {
+                test: "StringEquals",
+                values: [accountId],
+                variable: "AWS:SourceOwner",
+              },
+            ],
+            effect: "Allow",
+            principals: [
+              {
+                identifiers: ["*"],
+                type: "AWS",
+              },
+            ],
+            resources: [snsSlack.arn],
+            sid: "__default_statement_ID",
+          },
+          {
+            actions: [
+              "SNS:Publish",
+            ],
+            effect: "Allow",
+            principals: [
+              {
+                identifiers: ["events.amazonaws.com"],
+                type: "Service",
+              },
+            ],
+            resources: [snsSlack.arn],
+          },
+        ],
+      }
+    );
+
+    new aws.snsTopicPolicy.SnsTopicPolicy(this, "snsPolicy", {
+      arn: snsSlack.arn,
+      policy: Token.asString(snsTopicPolicy.json),
+    });
 
 
     // IAM Role Create for Chatbot
