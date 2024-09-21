@@ -67,9 +67,6 @@ jobs:
          npm install @cdktf/provider-aws
          npm install --save-dev @types/node
          echo $CW_CONFIG > cw_configs.ts
-         cat cw_configs.ts
-
-
 
 
       - name: Run Terraform CDK DryRun
