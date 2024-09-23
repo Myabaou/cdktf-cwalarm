@@ -69,13 +69,16 @@ jobs:
 
 
       - name: Generate module and provider bindings
+        if: ${{ steps.cache_cdk_dependency_id.outputs.cache-hit != 'true' }}
         run: | 
          npm install cdktf-cli@${{ env.CDKTF_VERSION }}
          npx cdktf-cli@${{ env.CDKTF_VERSION }} get
          npm install @cdktf/provider-aws
          npm install --save-dev @types/node
-         echo $CW_CONFIG > cw_configs.ts
 
+      - name: Config Create
+        run: | 
+         echo $CW_CONFIG > cw_configs.ts
 
       - name: Run Terraform CDK DryRun
         uses: hashicorp/terraform-cdk-action@v5
