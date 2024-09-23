@@ -1,3 +1,4 @@
 id,statistic,threshold,namespace,metricname,comparisonOperator,dimensions,evaluationPeriods,period,treatMissingData,alarmActionsEnabled,okActionsEnabled,
 ec2_A_Maximum,Maximum,90,AWS/EC2,CPUUtilization,GreaterThanThreshold,InstanceId: i-XXXXXXXXXX,6,300,missing,true,false,
 ec2_B_Maximum,Maximum,90,AWS/EC2,CPUUtilization,GreaterThanThreshold,InstanceId: i-XXXXXXXXXX,6,300,missing,true,false,
+ec2_C_Maximum,Maximum,90,AWS/EC2,CPUUtilization,GreaterThanThreshold,InstanceId: i-XXXXXXXXXX,6,300,missing,true,false,
